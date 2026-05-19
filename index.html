@@ -193,7 +193,33 @@
                     <select><option>Please Select</option><option>Yes</option><option>No</option></select>
                 </div>
                 <div class="field"><label>Date you Moved into your Current Address</label><input type="text" placeholder="DD/MM/YYYY"></div>
+
+                <h3>Reference Details <span style="font-size:12px;color:#888;font-weight:400">(shown when renting)</span></h3>
+                <div class="field"><label>Rental Agency at current rental address</label><input type="text"></div>
+                <div class="field" style="opacity:0.4"><label>Managing Agent's name at current rental address <span class="removed-badge">REMOVED</span></label><input type="text" disabled></div>
+                <div class="field"><label>Managing Agent's email at current rental address</label><input type="email"></div>
+                <div class="field"><label>Managing Agent's phone number at current rental address</label><input type="tel"></div>
+                <p style="font-size:14px;color:#666;margin:12px 0 8px">Please provide the Tenant Ledger for your time at this property, or a Confirmation Letter from your Landlord</p>
+                <div class="field"><label>Proof of Rental Ledger</label><input type="file" accept=".pdf"></div>
             </div>
+
+            <div class="section">
+                <h2>Previous Residential Address <span style="font-size:14px;font-weight:400;color:#888">(optional)</span></h2>
+                <div class="field"><label>Country</label><select><option>Australia</option></select></div>
+                <div class="field"><label>Unit Number</label><input type="text"></div>
+                <div class="field"><label>Street Number</label><input type="text"></div>
+                <div class="field"><label>Street Name</label><input type="text"></div>
+                <div class="field"><label>Street Type</label><select><option>Please Select</option></select></div>
+                <div class="field"><label>Suburb</label><input type="text"></div>
+                <div class="field"><label>State / Region</label><select><option>Please Select</option></select></div>
+                <div class="field"><label>Postcode</label><input type="text"></div>
+                <div class="field"><label>Did you Own or Rent at your Previous Address?</label><select><option>Please Select</option><option>Rent</option><option>Own</option><option>Family Home</option></select></div>
+                <div class="field-row">
+                    <div class="field"><label>Previous Address Move In Date</label><input type="text" placeholder="DD/MM/YYYY"></div>
+                    <div class="field"><label>Previous Address Move Out Date</label><input type="text" placeholder="DD/MM/YYYY"></div>
+                </div>
+            </div>
+
             <div class="nav-buttons">
                 <button class="btn btn-secondary" onclick="showStep(1)">← Previous</button>
                 <button class="btn btn-primary" onclick="showStep(3)">Next →</button>
