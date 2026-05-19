@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nation BTR — Tenancy Application Form Preview</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #1a1a1a; }
+        .header { background: #000; color: #fff; padding: 20px 40px; display: flex; align-items: center; gap: 16px; }
+        .header h1 { font-size: 18px; font-weight: 500; }
+        .header .badge { background: #ff0; color: #000; padding: 4px 10px; font-size: 12px; font-weight: 700; border-radius: 2px; }
+        .layout { display: flex; max-width: 1200px; margin: 40px auto; gap: 30px; padding: 0 20px; }
+        .stepper { width: 200px; flex-shrink: 0; }
+        .stepper-item { padding: 12px 16px; border-left: 3px solid #ddd; margin-bottom: 4px; cursor: pointer; font-size: 14px; color: #666; }
+        .stepper-item.active { border-left-color: #000; color: #000; font-weight: 600; background: #fff; }
+        .stepper-item:hover { background: #fff; }
+        .form-area { flex: 1; }
+        .step { display: none; }
+        .step.active { display: block; }
+        .section { background: #fff; border: 1px solid #e0e0e0; border-radius: 4px; padding: 24px; margin-bottom: 16px; }
+        .section h2 { font-size: 18px; font-weight: 600; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #eee; }
+        .section h3 { font-size: 14px; font-weight: 600; margin: 20px 0 12px; color: #444; text-transform: uppercase; letter-spacing: 0.5px; }
+        .field { margin-bottom: 16px; }
+        .field label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+        .field label .req { color: #e00; margin-left: 2px; }
+        .field input, .field select, .field textarea { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 3px; font-size: 14px; background: #fafafa; }
+        .field input:focus, .field select:focus { outline: none; border-color: #000; background: #fff; }
+        .field .hint { font-size: 12px; color: #888; margin-top: 4px; }
+        .radio-group { display: flex; gap: 20px; margin-top: 6px; }
+        .radio-group label { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 400; cursor: pointer; }
+        .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .nav-buttons { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; }
+        .btn { padding: 10px 24px; font-size: 14px; font-weight: 600; border: none; border-radius: 3px; cursor: pointer; }
+        .btn-primary { background: #000; color: #fff; }
+        .btn-secondary { background: transparent; border: 1px solid #000; color: #000; }
+        .btn-ghost { background: transparent; color: #666; text-decoration: underline; border: none; }
+        .removed-badge { display: inline-block; background: #ff0; color: #000; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 2px; margin-left: 8px; vertical-align: middle; }
+        .info-box { background: #f0f7ff; border: 1px solid #c0d8f0; border-radius: 3px; padding: 16px; font-size: 14px; margin-bottom: 16px; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Nation BTR — Tenancy Application</h1>
+    <span class="badge">PREVIEW</span>
+    <span style="font-size:12px;color:#aaa;margin-left:auto;">Fields marked <span style="color:#ff0">REMOVED</span> have been removed in this revision</span>
+</div>
+
+<div class="layout">
+    <div class="stepper">
+        <div class="stepper-item active" onclick="showStep(1)">1. Applicant Details</div>
+        <div class="stepper-item" onclick="showStep(2)">2. Address</div>
+        <div class="stepper-item" onclick="showStep(3)">3. Employment</div>
+        <div class="stepper-item" onclick="showStep(4)">4. Income</div>
+        <div class="stepper-item" onclick="showStep(5)">5. Identity</div>
+        <div class="stepper-item" onclick="showStep(6)">6. People</div>
+        <div class="stepper-item" onclick="showStep(7)">7. Emergency Contact</div>
+        <div class="stepper-item" onclick="showStep(8)">8. Pets</div>
+    </div>
+
+    <div class="form-area">
+
+        <!-- STEP 1 -->
+        <div class="step active" id="step-1">
+            <div class="section">
+                <h2>Applicant Details</h2>
+                <div class="field">
+                    <label>Please select which descriptions best describe your situation <span class="req">*</span></label>
+                    <select><option>Select options from the dropdown menu</option></select>
+                </div>
+                <div class="field">
+                    <label>Email <span class="req">*</span></label>
+                    <input type="email" placeholder="email@example.com">
+                </div>
+                <div class="field">
+                    <label>Mobile <span class="req">*</span></label>
+                    <input type="tel" placeholder="+61 4xx xxx xxx">
+                </div>
+                <div class="field">
+                    <label>Legal First Name <span class="req">*</span></label>
+                    <input type="text">
+                </div>
+                <div class="field">
+                    <label>Legal Last Name <span class="req">*</span></label>
+                    <input type="text">
+                </div>
+                <div class="field">
+                    <label>Additional Names</label>
+                    <input type="text">
+                </div>
+                <div class="field">
+                    <label>Date of Birth <span class="req">*</span></label>
+                    <input type="text" placeholder="DD/MM/YYYY">
+                </div>
+                <div class="field" style="opacity:0.4">
+                    <label>Gender <span class="removed-badge">REMOVED</span></label>
+                    <select disabled><option>Please Select</option></select>
+                </div>
+                <div class="field" style="opacity:0.4">
+                    <label>Nationality <span class="removed-badge">REMOVED</span></label>
+                    <select disabled><option>Please Select</option></select>
+                </div>
+                <div class="field">
+                    <label>Preferred Length of Tenancy <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="tenancy"> 6 months</label>
+                        <label><input type="radio" name="tenancy"> 12 months</label>
+                        <label><input type="radio" name="tenancy"> 18 months</label>
+                        <label><input type="radio" name="tenancy"> 24 months</label>
+                        <label><input type="radio" name="tenancy"> Other</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Preferred Move-in Date <span class="req">*</span></label>
+                    <input type="text" placeholder="DD/MM/YYYY">
+                </div>
+                <div class="field" style="opacity:0.4">
+                    <label>Are you a Front-line Worker? <span class="removed-badge">REMOVED</span></label>
+                    <div class="radio-group">
+                        <label><input type="radio" disabled> Yes</label>
+                        <label><input type="radio" disabled> No</label>
+                    </div>
+                </div>
+                <div class="field" style="opacity:0.4">
+                    <label>Do you Receive Government Rental Assistance (e.g. Rent Assist)? <span class="removed-badge">REMOVED</span></label>
+                    <div class="radio-group">
+                        <label><input type="radio" disabled> Yes</label>
+                        <label><input type="radio" disabled> No</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Joint Applicants</h2>
+                <p class="info-box">All Residents over the age of 18 who are not a 'dependent', will need to complete an application. If you wish to invite others to join your application, please select the number of additional joint applicants below.</p>
+                <div class="field">
+                    <label>Will there be Joint Applicants? <span class="req">*</span></label>
+                    <select><option>Please Select</option><option>0</option><option>1</option><option>2</option><option>3</option></select>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Additional Requirements</h2>
+                <div class="field">
+                    <label>Car Space Required <span class="req">*</span></label>
+                    <select><option>Please Select</option></select>
+                </div>
+                <div class="field" style="opacity:0.4">
+                    <label>Internet Broadband Required <span class="removed-badge">REMOVED</span></label>
+                    <select disabled><option>Please Select</option></select>
+                </div>
+                <div class="field">
+                    <label>Storage Cage Size Required <span class="req">*</span></label>
+                    <select><option>Please Select</option></select>
+                </div>
+                <div class="field" style="opacity:0.4">
+                    <label>Wheelchair Access <span class="removed-badge">REMOVED</span></label>
+                    <div class="radio-group">
+                        <label><input type="radio" disabled> Yes</label>
+                        <label><input type="radio" disabled> No</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-ghost">Cancel</button>
+                <div style="display:flex;gap:8px">
+                    <button class="btn btn-secondary">Save &amp; Exit</button>
+                    <button class="btn btn-primary" onclick="showStep(2)">Next →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step" id="step-2">
+            <div class="section">
+                <h2>Current Residential Address</h2>
+                <p style="font-size:14px;color:#666;margin-bottom:16px">At a minimum, please provide your current residential address</p>
+                <div class="field">
+                    <label>Country <span class="req">*</span></label>
+                    <select><option>Australia</option></select>
+                </div>
+                <div class="field"><label>Unit Number</label><input type="text"></div>
+                <div class="field"><label>Street Number <span class="req">*</span></label><input type="text"></div>
+                <div class="field"><label>Street Name <span class="req">*</span></label><input type="text"></div>
+                <div class="field"><label>Street Type <span class="req">*</span></label><select><option>Please Select</option></select></div>
+                <div class="field"><label>Suburb <span class="req">*</span></label><input type="text"></div>
+                <div class="field"><label>State / Region</label><select><option>Please Select</option></select></div>
+                <div class="field"><label>Postcode <span class="req">*</span></label><input type="text"></div>
+                <div class="field">
+                    <label>Do you rent? <span class="req">*</span></label>
+                    <select><option>Please Select</option><option>Yes</option><option>No</option></select>
+                </div>
+                <div class="field"><label>Date you Moved into your Current Address</label><input type="text" placeholder="DD/MM/YYYY"></div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="showStep(1)">← Previous</button>
+                <button class="btn btn-primary" onclick="showStep(3)">Next →</button>
+            </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="step" id="step-3">
+            <div class="section">
+                <h2>Employment Details</h2>
+                <p style="font-size:14px;color:#666;margin-bottom:16px">At minimum, please provide Proof of Employment to cover all the jobs you have held over the last 12 months</p>
+                <div class="field">
+                    <label>Employment Type <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="emp"> Employed</label>
+                        <label><input type="radio" name="emp"> Self Employed</label>
+                        <label><input type="radio" name="emp"> Unemployed</label>
+                        <label><input type="radio" name="emp" style="opacity:0.4" disabled> Retired <span class="removed-badge">REMOVED</span></label>
+                        <label><input type="radio" name="emp" style="opacity:0.4" disabled> Student <span class="removed-badge">REMOVED</span></label>
+                    </div>
+                </div>
+                <h3>Current Employment Details</h3>
+                <div class="field"><label>Company Name <span class="req">*</span></label><input type="text"></div>
+                <div class="field"><label>Role or Title <span class="req">*</span></label><input type="text"></div>
+                <div class="field"><label>Start Date <span class="req">*</span></label><input type="text" placeholder="DD/MM/YYYY"></div>
+                <div class="field" style="opacity:0.4">
+                    <label>Are you still Working There? <span class="removed-badge">REMOVED</span></label>
+                    <div class="radio-group">
+                        <label><input type="radio" disabled> Yes</label>
+                        <label><input type="radio" disabled> No</label>
+                    </div>
+                </div>
+                <h3>Proof of Employment</h3>
+                <div class="field"><label>Document Type for Proof <span class="req">*</span></label><select><option>Please Select</option></select></div>
+                <div class="field"><label>Upload Document <span class="req">*</span></label><input type="file" accept=".pdf"></div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="showStep(2)">← Previous</button>
+                <button class="btn btn-primary" onclick="showStep(4)">Next →</button>
+            </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="step" id="step-4">
+            <div class="section">
+                <h2>Income &amp; Bank Statements</h2>
+                <div class="field"><label>Income Type <span class="req">*</span></label><select><option>Please Select</option></select></div>
+                <div class="field"><label>Frequency of Income <span class="req">*</span></label><select><option>Please Select</option></select></div>
+                <div class="field"><label>Net Amount <span class="req">*</span></label><input type="number" placeholder="$"></div>
+                <h3>Bank Statements</h3>
+                <p style="font-size:14px;color:#666;margin-bottom:12px">Load up to 3 official Australian Bank Statements to demonstrate your income over the past 3 months</p>
+                <div class="field"><label>Bank Statement 1 <span class="req">*</span></label><input type="file" accept=".pdf"><div class="hint">Minimum 3 Months Old</div></div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="showStep(3)">← Previous</button>
+                <button class="btn btn-primary" onclick="showStep(5)">Next →</button>
+            </div>
+        </div>
+
+        <!-- STEP 5 -->
+        <div class="step" id="step-5">
+            <div class="section">
+                <h2>Identity Documents</h2>
+                <div class="field"><label>Select Primary Document Type <span class="req">*</span></label><select><option>Please Select</option></select></div>
+                <div class="field"><label>Select Secondary Document Type <span class="req">*</span></label><select><option>Please Select</option></select></div>
+            </div>
+            <div class="section">
+                <h2>Proof of Identity Data</h2>
+                <div class="field">
+                    <label>Document Type <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="id"> Passport</label>
+                        <label><input type="radio" name="id"> Driving License</label>
+                        <label><input type="radio" name="id"> Medicare</label>
+                    </div>
+                </div>
+                <div class="field"><label>Passport Number</label><input type="text"></div>
+                <div class="field"><label>Country Code</label><input type="text"></div>
+                <div class="field" style="opacity:0.4">
+                    <label>Gender <span class="removed-badge">REMOVED</span></label>
+                    <select disabled><option>Please Select</option></select>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="showStep(4)">← Previous</button>
+                <button class="btn btn-primary" onclick="showStep(6)">Next →</button>
+            </div>
+        </div>
+
+        <!-- STEP 6 -->
+        <div class="step" id="step-6">
+            <div class="section">
+                <h2>Other Residents</h2>
+                <div class="field">
+                    <label>Other Residents Including Children? <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="occ"> Yes</label>
+                        <label><input type="radio" name="occ"> No</label>
+                    </div>
+                </div>
+                <div style="opacity:0.4">
+                    <h3>Resident Details <span class="removed-badge">REMOVED</span></h3>
+                    <p style="font-size:13px;color:#888;margin-top:8px">Age, First Name, Last Name, Carer fields for Residents 1–6 have been removed</p>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="showStep(5)">← Previous</button>
+                <button class="btn btn-primary" onclick="showStep(7)">Next →</button>
+            </div>
+        </div>
+
+        <!-- STEP 7 -->
+        <div class="step" id="step-7">
+            <div class="section">
+                <h2>Emergency Contact</h2>
+                <div class="field"><label>First Name <span class="req">*</span></label><input type="text"></div>
+                <div class="field"><label>Last Name <span class="req">*</span></label><input type="text"></div>
+                <div class="field"><label>Phone <span class="req">*</span></label><input type="tel"></div>
+                <div class="field"><label>Email <span class="req">*</span></label><input type="email"></div>
+                <div class="field"><label>Relationship to you <span class="req">*</span></label><select><option>Please Select</option></select></div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="showStep(6)">← Previous</button>
+                <button class="btn btn-primary" onclick="showStep(8)">Next →</button>
+            </div>
+        </div>
+
+        <!-- STEP 8 -->
+        <div class="step" id="step-8">
+            <div class="section">
+                <h2>Pets</h2>
+                <div class="field">
+                    <label>Will any Pets be Living in your Residence? <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="pets"> Yes</label>
+                        <label><input type="radio" name="pets"> No</label>
+                    </div>
+                </div>
+                <h3>Pet 1</h3>
+                <div class="field"><label>Pet Name</label><input type="text"></div>
+                <div class="field"><label>Species <span class="req">*</span></label><select><option>Please Select</option></select></div>
+                <div class="field"><label>Breed</label><input type="text"></div>
+                <div class="field" style="opacity:0.4"><label>Gender <span class="removed-badge">REMOVED</span></label><select disabled><option>Please Select</option></select></div>
+                <div class="field" style="opacity:0.4"><label>Age <span class="removed-badge">REMOVED</span></label><input type="number" disabled></div>
+                <div class="field" style="opacity:0.4"><label>Pet Registration Number <span class="removed-badge">REMOVED</span></label><input type="text" disabled></div>
+                <div class="field"><label>Weight (KG)</label><input type="text"></div>
+                <div class="field">
+                    <label>Vaccinated? <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="vax"> Yes</label>
+                        <label><input type="radio" name="vax"> No</label>
+                    </div>
+                </div>
+                <div class="field"><label>Photos</label><input type="file" accept="image/*"><div class="hint">Please attach photos of pet</div></div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="showStep(7)">← Previous</button>
+                <button class="btn btn-primary">Submit Application</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function showStep(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.stepper-item').forEach(s => s.classList.remove('active'));
+    document.getElementById('step-' + n).classList.add('active');
+    document.querySelectorAll('.stepper-item')[n-1].classList.add('active');
+    window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
