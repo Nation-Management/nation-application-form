@@ -1,0 +1,147 @@
+{% from './../../../templates/macros/base-module-helpers.html' import base_set_bg_colour, base_generate_vertical_space_class, base_generate_bg_media, generate_base_bg_video,base_generate_custom_content_wrapper_class,base_content_wrapper_inline_css %}
+{% from './../../../templates/macros/html-helpers.html' import generate_dynamic_title, change_text_alignment, generate_dynamic_cta_group, generate_loading_skeleton,render_specific_symbol,render_radio_symbol,render_custom_svg,generate_spinner_button,page_loader,generate_add_more_btn,generate_action_btn,generate_step_submit_btn %}
+{% from './../../../templates/macros/form-builder-helpers.html' import generate_text_input_v2, generate_phone_input_v2, generate_loading_skeleton,generate_textarea,generate_text_input_v3,generate_date_input,generate_radio_field,generate_checkbox_input,generate_icon,generate_select_v3,generate_simple_radio_field,generate_file_input,generate_support_document_input,generate_document_select,generate_ntd_text_input,generate_ntd_select,generate_tom_select,generate_simple_radio_field_v2 %}
+{% from './../../../templates/macros/application-properties-helpers.html' import applicationproperties,crm_country_code_description,crm_length_of_tenancy_other_description,crm_email_description,crm_car_space_type_description,crm_wheelchair_access_required_description,crm_income_1_bank_statement_file_description,crm_storage_cage_size_description %}
+{% from './../../../templates/macros/libraries.html' import tom_select %}
+{% from './../../../templates/macros/crm-options-helpers.html' import crm_application_type_dict,crm_gender_dict,crm_radio_do_you_have_rent_assistance_dict,crm_radio_front_line_workerdict,crm_radio_length_of_tenancy_dict,crm_radio_will_there_be_number_of_joint_applicants__dict,crm_radio_state_region_dict,crm_country_dict,crm_primary_address_own_or_rent_dict,crm_primary_address_still_rentingdict,crm_employment_type_dict,crm_frequency_of_income_dict,crm_are_you_or_they_still_working_there__dict,crm_length_of_employment_month_dict,crm_length_of_employment_dict,crm_is_this_occupant_a_carer__dict,crm_pets_dict,crm_gender_of_pet_dict,crm_vaccinated_dict,crm_storage_dict,crm_wheelchair_access_dict,crm_radio_secondary_address_state___region_dict,crm_previous_address_country_dict,crm_secondary_address_primary_address_own_or_rent_dict,crm_income_2_type_dict,crm_income_two___frequency_of_income_dict,crm_length_of_employment_month_dict,crm_additional_employment___length_of_employmentdict,crm_additional_employment___length_of_employment_months_dict,primary_doc_dict,secondary_doc_dict,crm_car_space_dict,crm_identity_type_dict,crm_ntd_medicare_card_colour_dict,crm_street_type_dict,crm_employment_doc_type_dict,crm_add_employment_type_dict,third_doc_dict,crm_country_code,crm_ntd_drivers_licence_state_dict,crm_primary_emergency_contact_relationship_dict,crm_pet_1_species_dict,crm_employment_1_reference_1_type,crm_internet_dict,crm_allowance_frequency_doc_type_dict,crm_course_type,crm_papplication_form_nationality_dict %}
+{% from './../../../templates/macros/multi-step-form-helpers.html' import tenancy_stepform_ul_container,tenancy_stepform_content_step_start,tenancy_stepform_content_step_1,tenancy_stepform_content_step_2,tenancy_stepform_content_step_3,tenancy_stepform_content_step_4,tenancy_stepform_content_step_8,tenancy_stepform_content_step_5,tenancy_stepform_content_step_6,tenancy_stepform_content_step_7,generate_joint_applicant,generate_application_residence_details,generate_content_group,generate_accordion_group %}
+
+{# ======= Base Module Macros ======= #}
+{% set css_class_align_text = change_text_alignment(module.module_config_options.toggle_text_alignment)|trim %}
+{% set css_class_module_bg = base_set_bg_colour(module.module_config_options.select_background_type, module.module_config_options.has_full_width_bg, module.module_config_options.select_background_colour, module.module_config_options.has_light_text, module.module_config_options.select_gradient_bg_colour)|trim %}
+{% set css_class_custom_content_width = base_generate_custom_content_wrapper_class(module.module_config_options.add_custom_content_width)|trim %}
+{% set content_width_css = base_content_wrapper_inline_css(module.module_config_options.add_custom_content_width,module.module_config_options.maximum_content_width) %}
+{% set optional_generated_bg_media = base_generate_bg_media(module.module_config_options.select_background_type, module.module_config_options.select_bg_image.src, module.module_config_options.select_bg_image.alt, module.module_config_options.choose_background_video, module.module_config_options.add_bg_blur_to_media, module.module_config_options.media_filter, module.module_config_options.video_filters, "") %}
+{% set css_class_vert_padding = base_generate_vertical_space_class(module.module_config_options.change_vertical_spacing)|trim %}
+{% set generated_title = generate_dynamic_title(module.standard_module_fields.module_title_size, module.standard_module_fields.module_title, module.module_config_options.toggle_anchor_link, "") %}
+{% set generated_cta_group = generate_dynamic_cta_group(module.standard_module_fields.cta_item, "") %}
+
+{#=========START DATA SETTING===============#}
+{% set apartment_ids = request.query_dict.rid %}
+{% set asset_ids = request.query_dict.assetid %}
+{%- set graphql_server_data = module.data_query.data.CRM -%}
+{% set primary_applicant = true %}
+{% set dealid = request.query_dict.dealid %}
+{% set mode = "apply" %}
+{% set application_id = 0 %}
+{% set applicationData = graphql_server_data.contact %}
+
+{% if dealid == "" or dealid == null %}
+    {% set dealID = 0 %}
+    {% set primary_applicant = true %}
+{% else %}
+    {% set dealData = crm_object("deal","hs_object_id="+ dealid,"hs_object_id,pipeline,application_asset_id_s,application_residence_id_s,application_residence_type_preference,move_in_date,length_of_tenancy,number_of_joint_applicants,wheelchair_access,car_space_type,storage_cage_size,other_occupants,pets",false) %}
+    {% set dealID = dealData.hs_object_id %}
+    {% set savedResidenceIDs = dealData.application_residence_id_s %}
+    {% set savedAssetIDs = dealData.application_asset_id_s %}
+    {% set savedType = dealData.application_residence_type_preference %}
+    {% set checkDeal = graphql_server_data.contact.associations.deals %}
+        {% set validDeal = dealID ? true:false %}
+        {{validDeal}}
+    {% set associatedApplicationID = checkDeal.total == "1" ? checkDeal.items[0].associations.applications.items[0].hs_object_id : "0" %}
+    {% set primary_applicant = false %}
+{% endif %}
+
+{% set crm_residence_type_dict = crm_property_definition('p7638315_application_profiles', 'residence_type').options %}
+{% set crm_neighbourhood_dict = crm_property_definition('p7638315_application_profiles', 'neighbourhood').options %}
+{% set crm_level_range_preference_dict = crm_property_definition('p7638315_application_profiles', 'level_range_preference').options %}
+
+{% macro generate_missing_docs() %}
+    <div class="alert--bg js-missing-docs"></div>
+{% endmacro %}
+{% set contactData = crm_object("contact","hs_object_id=" + request_contact.contact.hs_object_id, "hs_object_id,email,lastname,firstname,phone,mobilephone,document_upload") %}
+{#===END DATA SETTING===#}
+
+<div class="js-page-loader-text-section"></div>
+<section class="base__outer-wrapper {{- css_class_module_bg|trim -}} multi-step-form-container__outer-wrapper js-section-wrapper" id="{{name}}" {{ module_inline_css }} data-memberid="{{MEMBERID}}" data-dealid="{{dealID}}" data-existingdeal="{{checkDeal.total}}" data-dealvalid="{{validDeal}}" data-mode="{{mode}}" data-existingapplicationid="{{associatedApplicationID}}" >
+    {{- optional_generated_bg_media -}}
+    <div id="popupInfoBox" style="display: none;"></div>
+    <div id="multi-step-form-container">
+        {% set step1text = module.custom_module_fields.step_form_ul_container.step_1 %}
+        {% set step2text = module.custom_module_fields.step_form_ul_container.step_2 %}
+        {% set step3text = module.custom_module_fields.step_form_ul_container.step_3 %}
+        {% set step4text = module.custom_module_fields.step_form_ul_container.step_4 %}
+        {% set step5text = module.custom_module_fields.step_form_ul_container.step_5 %}
+        {% set step6text = module.custom_module_fields.step_form_ul_container.step_6 %}
+        {% set step7text = module.custom_module_fields.step_form_ul_container.step_7 %}
+        {% set step8text = module.custom_module_fields.step_form_ul_container.step_8 %}
+        <div class="{{ css_class_custom_content_width }}" {{content_width_css}}>
+        {{- generate_accordion_group("Missing Documents",generate_missing_docs(),"residence-details-summary_title residence-missing-doc") -}}
+        </div>
+        {{ tenancy_stepform_ul_container('content-wrapper {{- css_class_vert_padding -}} {{- css_class_align_text -}}',content_width_css,'border--bottom text-center mx-auto pl-0',step1text,step2text,step3text,step4text,step5text,step6text,step7text,step8text) }}
+        <div class="base__inner-wrapper {{- css_class_custom_content_width -}} {{- css_class_vert_padding -}} {{- css_class_align_text -}}" {{ content_width_css }}>
+            <div class="base__custom-content">
+                <div class="display--flex flex-fixed flex--space-between gap--s">
+                    <form id="userAccountSetupForm" class="col-width--70 mobile-accordion__group" name="userAccountSetupForm" enctype="multipart/form-data" method="POST" autocomplete="off">
+                    {% set before_start = module.custom_module_fields.before_start_step %}
+                    {% set stepcontent_1 = module.custom_module_fields.step_form_content.step_1 %}
+                    {% set stepcontent_2 = module.custom_module_fields.step_form_content.step_2 %}
+                    {% set stepcontent_3 = module.custom_module_fields.step_form_content.step_3 %}
+                    {% set stepcontent_4 = module.custom_module_fields.step_form_content.step_4 %}
+                    {% set stepcontent_5 = module.custom_module_fields.step_form_content.step_5 %}
+                    {% set stepcontent_6 = module.custom_module_fields.step_form_content.step_6 %}
+                    {% set stepcontent_7 = module.custom_module_fields.step_form_content.step_7 %}
+                    {% set stepcontent_8 = module.custom_module_fields.step_form_content.step_8 %}
+
+                    {{tenancy_stepform_content_step_start("test",before_start.title,before_start.inner_title,before_start.start_info,"Cancel","Start Application")}}
+                    {{tenancy_stepform_content_step_1("test",stepcontent_1.section_title,stepcontent_1.step_title,stepcontent_1.step_inner_title,stepcontent_1.inner_content,stepcontent_1.mandatory_key,"1/8","Cancel","Next","Save & Exit",mode,applicationData,primary_applicant,dealData)}}
+                    {{tenancy_stepform_content_step_2("test",stepcontent_2.section_title,stepcontent_2.step_title,stepcontent_2.step_inner_title,stepcontent_2.inner_content,stepcontent_2.mandatory_key,"2/8","Cancel","Previous","Next","Save & Exit",mode,applicationData)}}
+                    {{tenancy_stepform_content_step_3("test",stepcontent_3.section_title,stepcontent_3.step_title,stepcontent_3.step_inner_title,stepcontent_3.inner_content,stepcontent_3.mandatory_key,"3/8","Cancel","Previous","Next","Save & Exit",mode,applicationData)}}
+                    {{tenancy_stepform_content_step_4("test",stepcontent_4.section_title,stepcontent_4.step_title,stepcontent_4.step_inner_title,stepcontent_4.inner_content,stepcontent_4.mandatory_key,"4/8","Cancel","Previous","Next","Save & Exit",mode,applicationData)}}
+                    {{tenancy_stepform_content_step_5("test",stepcontent_5.section_title,stepcontent_5.step_title,stepcontent_5.step_inner_title,stepcontent_5.inner_content,stepcontent_5.mandatory_key,"5/8","Cancel","Previous","Next","Save & Exit",mode,applicationData,contactData)}}
+                    {{tenancy_stepform_content_step_6("test",stepcontent_6.section_title,stepcontent_6.step_title,stepcontent_6.step_inner_title,stepcontent_6.inner_content,stepcontent_6.mandatory_key,"6/8","Cancel","Previous","Next","Save & Exit",mode,applicationData,primary_applicant,dealData)}}
+                    {{tenancy_stepform_content_step_7("test",stepcontent_7.section_title,stepcontent_7.step_title,stepcontent_7.step_inner_title,stepcontent_7.inner_content,stepcontent_7.mandatory_key,"7/8","Cancel","Previous","Next","Save & Exit",mode,applicationData)}}
+                    {{tenancy_stepform_content_step_8("test",stepcontent_8.section_title,stepcontent_8.step_title,stepcontent_8.step_inner_title,stepcontent_8.inner_content,stepcontent_8.mandatory_key,"8/8","Cancel","Previous","Submit Application","Save & Exit",mode,applicationData,primary_applicant,'',dealData)}}
+                    </form>
+                    <div class="js-residence-details residence-details col-width--30 display--flex gap--s">
+                        <h3>Application Summary</h3>
+                        {% set asset_ids = request.query_dict.assetid %}
+                        {% set apartment_ids = request.query_dict.rid %}
+                        {% set residence_object_datas = crm_objects("p7638315_Residence","hs_object_id__in="+apartment_ids,"residence_name,rent_per_week",false) %}
+                        {%- set residence_data = graphql_server_data.residences -%}
+                        {% set has_prepsetData = apartment_ids!=null ? true :asset_ids!=null? true:false %}
+                        {% set has_residence = residence_object_datas.total > 0 ? true : false %}
+                        {% set has_assets = asset_ids!= null? true:false %}
+                        {% set total = residence_data.total %}
+                        {% if has_prepsetData %}
+                            {% if has_residence %}
+                                {% set accordion_title = residence_object_datas.total + ' apartment{% if residence_object_datas.total >1 %}s{% endif %} included' %}
+                                {% set summary_datas = residence_object_datas.results %}
+                                {% set preference_type = 'residence' %}
+                            {% elif has_assets %}
+                                {% set asset_object_datas = crm_objects("p7638315_assets","hs_object_id__in="+asset_ids,"price_range_maximum,price_range_minimum,asset_type,asset_name",false) %}
+                                {% set summary_datas = asset_object_datas.results %}
+                                {% set total = asset_object_datas.total %}
+                                {% set preference_type = 'asset' %}
+                                {% set accordion_title = total + ' Apartment Type{% if total >1 %}s{% endif %} included' %}
+                            {% endif %}
+                        {% else %}
+                            {% set accordion_title = "Create Preference" %}
+                            {% set summary_datas = '' %}
+                            {% set preference_type = '' %}
+                        {% endif %}
+                        {{- generate_content_group(accordion_title,generate_application_residence_details(has_prepsetData,summary_datas,preference_type,mode),"residence-details-summary_title",false,"") -}}
+                        <div class="hidden">
+                            {{- generate_loading_skeleton("col-width--full-width", "Loading …", generate_text_input_v2("application_profile_name","application_profile_name","Application Name",applicationData.application_profile_name, "text", false, "", "", false,false, "application_profile_name", 'application_profile')) -}}
+                            {{- generate_loading_skeleton("col-width--full-width", "Loading …", generate_text_input_v2("primary_applicant","primary_applicant","Primary Application",primary_applicant, "text", false, "", "", false,false, "primary_applicant", 'application_profile')) -}}
+                            {{- generate_loading_skeleton("col-width--full-width", "Loading …", generate_text_input_v2("contactid","contactid","Contact ID",MEMBERID, "text", false, "", "", false,false, "contactid", 'application_profile')) -}}
+                            {% if !primary_applicant %}
+                            {{- generate_loading_skeleton("col-width--full-width", "Loading …", generate_text_input_v2("residence_ids","residence_ids","Residence IDs",savedResidenceIDs, "text", false, "", "", false,false, "residence_ids", 'application_profile')) -}}
+                            {{- generate_loading_skeleton("col-width--full-width", "Loading …", generate_text_input_v2("asset_ids","asset_ids","Asset IDs",savedAssetIDs, "text", false, "", "", false,false, "asset_ids", 'application_profile')) -}}
+                            {{- generate_loading_skeleton("col-width--full-width", "Loading …", generate_select_v3("residence_type", "Residence Type", "", crm_residence_type_dict, savedType, false, true, "residence_type", "application_profile")) -}}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if generated_cta_group %}
+            <div class="base__cta-items-wrapper">
+                {{- generated_cta_group -}}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+{{tom_select()}}

@@ -1,0 +1,68 @@
+.BooksetupFrom {
+    max-width: 916px
+}
+
+.residence-details {
+    background: #fff;
+    border: 5px solid #f2f2f2;
+    border-radius: 6px;
+    max-width: 380px;
+    padding: 36px 24px
+}
+.summary-ul {
+    font-size: 16px;
+    color: #777;
+    margin-left: 0;
+    list-style: none;
+}
+.summary-ul li {
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+}
+.summary-ul li a {
+    color: #333;
+    text-decoration: underline;
+    text-align: right;
+    width: 100%;
+}
+.residence-details-summary_title h5 {
+    font-size: 16px;
+}
+.residence-details-summary_title {
+    width: 100%;
+}
+hr.flex-center-line {
+    width: 50%;
+}
+span.steplist {
+    width: 100%;
+}
+.search_group-item.residence-missing-doc {
+    border: 1px solid #D9A21F;
+    background-color: rgba(255, 180, 0, 0.10);
+    padding: 10px;
+}
+span.list-count {
+    border-radius: 100px;
+    background: #F3A000;
+    color: #fff;
+    padding: 9px 15px;
+    margin-right: 10px;
+    line-height: 1;
+}
+.file-button {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+.residence-title {
+    border-bottom: 1px solid var(--grey-200);
+}
+.residence--price {
+    margin-top: 10px;
+}
+.page-loader-text {
+    max-width: 90%;
+    text-align: center;
+}
