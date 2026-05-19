@@ -192,7 +192,7 @@
                     <label>Do you rent? <span class="req">*</span></label>
                     <select><option>Please Select</option><option>Yes</option><option>No</option></select>
                 </div>
-                <div class="field"><label>Date you Moved into your Current Address</label><input type="text" placeholder="DD/MM/YYYY"></div>
+                <div class="field"><label>Date you Moved into your Current Address</label><input type="text" id="moveInDate" placeholder="DD/MM/YYYY" oninput="checkMoveInDate(this.value)"></div>
 
                 <h3>Reference Details <span style="font-size:12px;color:#888;font-weight:400">(shown when renting)</span></h3>
                 <div class="field"><label>Rental Agency at current rental address</label><input type="text"></div>
@@ -203,8 +203,9 @@
                 <div class="field"><label>Proof of Rental Ledger</label><input type="file" accept=".pdf"></div>
             </div>
 
-            <div class="section">
-                <h2>Previous Residential Address <span style="font-size:14px;font-weight:400;color:#888">(optional)</span></h2>
+            <div class="section" id="previousAddressSection" style="display:none">
+                <h2>Previous Residential Address</h2>
+                <p style="font-size:13px;color:#e67700;margin-bottom:16px">Shown because you have lived at your current address for less than 12 months</p>
                 <div class="field"><label>Country</label><select><option>Australia</option></select></div>
                 <div class="field"><label>Unit Number</label><input type="text"></div>
                 <div class="field"><label>Street Number</label><input type="text"></div>
@@ -385,6 +386,17 @@
 </div>
 
 <script>
+function checkMoveInDate(val) {
+    var section = document.getElementById('previousAddressSection');
+    if (!val || val.length < 8) { section.style.display = 'none'; return; }
+    var parts = val.split('/');
+    if (parts.length !== 3) { section.style.display = 'none'; return; }
+    var moveIn = new Date(parts[2], parts[1] - 1, parts[0]);
+    if (isNaN(moveIn)) { section.style.display = 'none'; return; }
+    var monthsAgo = (new Date() - moveIn) / (1000 * 60 * 60 * 24 * 30.44);
+    section.style.display = monthsAgo < 12 ? 'block' : 'none';
+}
+
 function showStep(n) {
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.stepper-item').forEach(s => s.classList.remove('active'));
