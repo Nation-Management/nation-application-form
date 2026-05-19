@@ -96,7 +96,7 @@
                 </div>
                 <div class="field">
                     <label>Date of Birth <span class="req">*</span></label>
-                    <input type="text" name="date_of_birth" class="js-dateinput" placeholder="DD/MM/YYYY">
+                    <input type="date" name="date_of_birth" class="js-dateinput">
                 </div>
                 <div class="field removed">
                     <label>Gender <span class="removed-badge">REMOVED</span></label>
@@ -118,7 +118,7 @@
                 </div>
                 <div class="field">
                     <label>Preferred Move-in Date <span class="req">*</span></label>
-                    <input type="text" name="move_in_date" class="js-movecalendar" placeholder="DD/MM/YYYY">
+                    <input type="date" name="move_in_date" class="js-movecalendar">
                 </div>
                 <div class="field removed">
                     <label>Are you a Front-line Worker? <span class="removed-badge">REMOVED</span></label>
@@ -220,7 +220,7 @@
                 </div>
                 <div class="field">
                     <label>Date you Moved into your Current Address</label>
-                    <input type="text" name="primary_address_move_in_date" class="js-dateinput" placeholder="DD/MM/YYYY" oninput="checkPreviousAddress(this.value)">
+                    <input type="date" name="primary_address_move_in_date" class="js-dateinput" onchange="checkPreviousAddress(this.value)">
                 </div>
 
                 <h3>Reference Details <span style="font-size:11px;font-weight:400;color:#888;text-transform:none">(shown when renting)</span></h3>
@@ -289,11 +289,11 @@
                 <div class="field-row">
                     <div class="field">
                         <label>Previous Address Move In Date</label>
-                        <input type="text" name="secondary_address_move_in_date" class="js-dateinput" placeholder="DD/MM/YYYY">
+                        <input type="date" name="secondary_address_move_in_date" class="js-dateinput">
                     </div>
                     <div class="field">
                         <label>Previous Address Move Out Date</label>
-                        <input type="text" name="secondary_address_move_out_date" class="js-dateinput" placeholder="DD/MM/YYYY">
+                        <input type="date" name="secondary_address_move_out_date" class="js-dateinput">
                     </div>
                 </div>
             </div>
@@ -334,7 +334,7 @@
                 </div>
                 <div class="field">
                     <label>Start Date <span class="req">*</span></label>
-                    <input type="text" name="employment_1_start_date" class="js-dateinput" placeholder="DD/MM/YYYY">
+                    <input type="date" name="employment_1_start_date" class="js-dateinput">
                 </div>
                 <div class="field removed">
                     <label>Are you still Working There? <span class="removed-badge">REMOVED</span></label>
@@ -377,7 +377,7 @@
                 </div>
                 <div class="field">
                     <label>Date Started <span class="req">*</span></label>
-                    <input type="text" name="employment_1_self_date_start" class="js-dateinput" placeholder="DD/MM/YYYY">
+                    <input type="date" name="employment_1_self_date_start" class="js-dateinput">
                 </div>
                 <div class="field">
                     <label>Proof of Self Employment <span class="req">*</span></label>
@@ -652,9 +652,7 @@
 function checkPreviousAddress(val) {
     var section = document.getElementById('previousAddressSection');
     if (!val) { section.classList.add('hidden'); return; }
-    var parts = val.split('/');
-    if (parts.length !== 3 || parts[2].length !== 4) { section.classList.add('hidden'); return; }
-    var moveIn = new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
+    var moveIn = new Date(val); // type="date" returns YYYY-MM-DD — parses directly
     if (isNaN(moveIn)) { section.classList.add('hidden'); return; }
     var monthsAgo = (new Date() - moveIn) / (1000 * 60 * 60 * 24 * 30.44);
     section.classList.toggle('hidden', monthsAgo >= 12);
