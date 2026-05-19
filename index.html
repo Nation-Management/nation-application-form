@@ -216,14 +216,15 @@
                 </div>
                 <div class="field">
                     <label>Do you Own or Rent at your Current Address? <span class="req">*</span></label>
-                    <select name="primary_address_own_or_rent"><option>Please Select</option><option value="Rent">Rent</option><option value="Own">Own</option><option value="Family Home">Family Home</option></select>
+                    <select name="primary_address_own_or_rent" onchange="handleOwnOrRent(this.value)"><option value="">Please Select</option><option value="Rent">Rent</option><option value="Own">Own</option><option value="Lived with Family">Lived with Family</option></select>
                 </div>
                 <div class="field">
                     <label>Date you Moved into your Current Address</label>
                     <input type="date" name="primary_address_move_in_date" class="js-dateinput" onchange="checkPreviousAddress(this.value)">
                 </div>
 
-                <h3>Reference Details <span style="font-size:11px;font-weight:400;color:#888;text-transform:none">(shown when renting)</span></h3>
+                <div id="rentReferenceSection" class="hidden">
+                <h3>Reference Details</h3>
                 <div class="field">
                     <label>Rental Agency at current rental address</label>
                     <input type="text" name="primary_address_reference_agency" class="primary_address_reference_agency js-condition-required">
@@ -244,6 +245,17 @@
                 <div class="field">
                     <label>Proof of Rental Ledger</label>
                     <div class="upload-field"><span name="proof_of_rent" style="font-size:14px;color:#888">Upload file</span><button class="upload-btn" type="button">↑ UPLOAD FILE</button></div>
+                </div>
+                </div>
+
+                <div id="ownHomeSection" class="hidden">
+                <h3>Proof of Ownership</h3>
+                <p style="font-size:14px;color:#666;margin-bottom:12px">Please provide a Rates Bill, or Utility Bill showing your name and address for the above property</p>
+                <div class="field">
+                    <label>Proof of Ownership</label>
+                    <div class="upload-field"><span style="font-size:14px;color:#888">Upload file</span><button class="upload-btn" type="button">↑ UPLOAD FILE</button></div>
+                    <input type="hidden" name="proof_of_ownership">
+                </div>
                 </div>
             </div>
 
@@ -649,6 +661,14 @@
 </div>
 
 <script>
+function handleOwnOrRent(val) {
+    var rent = document.getElementById('rentReferenceSection');
+    var own = document.getElementById('ownHomeSection');
+    rent.classList.toggle('hidden', val !== 'Rent');
+    own.classList.toggle('hidden', val !== 'Own');
+    // Lived with Family or Please Select = both hidden
+}
+
 function checkPreviousAddress(val) {
     var section = document.getElementById('previousAddressSection');
     if (!val) { section.classList.add('hidden'); return; }
